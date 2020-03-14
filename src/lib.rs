@@ -68,7 +68,11 @@ where
         self.rev.clear();
     }
 
-    /// Inserts a (key, value) pair into the bimap. Panics if either the key or value is already
+    /// Inserts a (key, value) pair into the bimap.
+    ///
+    /// # Panics
+    ///
+    /// Panics if either the key or value is already
     /// present in the bimap; to change a key or value, call either `remove_fwd` or
     /// `remove_rev` before inserting the new (key, value) pair.
     pub fn insert(&mut self, k: K, v: V) {
@@ -105,6 +109,10 @@ where
     }
 
     /// Removes the (key, value) pair with the given key; returns the corresponding value.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the key is not present in the bimap.
     pub fn remove_fwd<KeyBorrow: ?Sized>(&mut self, k: &KeyBorrow) -> V
     where
         K: Borrow<KeyBorrow>,
@@ -116,6 +124,10 @@ where
     }
 
     /// Removes the (key, value) pair with the given value; returns the corresponding key.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the value is not present in the bimap.
     pub fn remove_rev<ValBorrow: ?Sized>(&mut self, v: &ValBorrow) -> K
     where
         V: Borrow<ValBorrow>,
