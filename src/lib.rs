@@ -140,6 +140,30 @@ where
         k
     }
 
+    /// Removes the (key, value) pair with the given key; returns the corresponding value.
+    pub fn take_fwd<KeyBorrow: ?Sized>(&mut self, k: &KeyBorrow) -> Option<V>
+    where
+        K: Borrow<KeyBorrow>,
+        KeyBorrow: Hash + Eq,
+    {
+        if let Some(v) = self.fwd.remove(k) {
+            self.rev.remove(&v);
+            Some(v)
+        } else { None }
+    }
+
+    /// Removes the (key, value) pair with the given value; returns the corresponding key.
+    pub fn take_rev<ValBorrow: ?Sized>(&mut self, v: &ValBorrow) -> Option<K>
+    where
+        V: Borrow<ValBorrow>,
+        ValBorrow: Hash + Eq,
+    {
+        if let Some(k) = self.rev.remove(v) {
+            self.fwd.remove(&k);
+            Some(k)
+        } else { None }
+    }
+
     /// Returns whether the bimap contains a (key, value) pair with the given key.
     pub fn contains_fwd<KeyBorrow: ?Sized>(&self, k: &KeyBorrow) -> bool
     where
