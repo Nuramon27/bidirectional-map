@@ -118,7 +118,8 @@ where
         K: Borrow<KeyBorrow>,
         KeyBorrow: Hash + Eq,
     {
-        let v = self.fwd.remove(k).unwrap();
+        let v = self.fwd.remove(k)
+            .expect("Element not present in bimap");
         self.rev.remove(&v);
         v
     }
@@ -133,7 +134,8 @@ where
         V: Borrow<ValBorrow>,
         ValBorrow: Hash + Eq,
     {
-        let k = self.rev.remove(v).unwrap();
+        let k = self.rev.remove(v)
+            .expect("Element not present in bimap");
         self.fwd.remove(&k);
         k
     }
